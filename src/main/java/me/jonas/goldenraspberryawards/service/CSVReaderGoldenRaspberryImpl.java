@@ -3,7 +3,6 @@ package me.jonas.goldenraspberryawards.service;
 import lombok.extern.log4j.Log4j2;
 import me.jonas.goldenraspberryawards.persistence.entities.Movie;
 import me.jonas.goldenraspberryawards.utils.BooleanConverter;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +16,6 @@ import static java.lang.String.format;
 import static java.util.Objects.nonNull;
 
 @Log4j2
-@Service
 public class CSVReaderGoldenRaspberryImpl implements CSVReader {
 
     private static final String DELIMITER = ";";
