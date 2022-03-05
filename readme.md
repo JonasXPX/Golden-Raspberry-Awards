@@ -11,13 +11,13 @@ Tomando como fonte de dados um arquivo CSV, o sistema guarda essas informações
 
 Começe clonando o projeto:
 
-``git clone xxxx golden-raspberry-awards && cd golden-raspberry-awards``
+``git clone https://github.com/JonasXPX/Golden-Raspberry-Awards.git golden-raspberry-awards && cd golden-raspberry-awards``
 
 Com o projeto em mãos você já pode executa-lo com o [maven](https://maven.apache.org/install.html):
 
 ``mvn spring-boot:run``
 
-**Porta padrão** de execução é 8081 porem pode ser alterada via variável de ambiente **APPLICATION_PORT**
+**Porta padrão** de execução é 8081 porém pode ser alterada via variável de ambiente **APPLICATION_PORT**
 
 #### Incluir mais dados
 Para incluir novos arquivos basta incluir na pasta csv 
@@ -26,7 +26,7 @@ Para incluir novos arquivos basta incluir na pasta csv
  Definição da API; 
 #### Awards
 
-Retorna o produtor com maior intervalo entre 2 premios, e produtore com menor intervalo entre os premios.  
+Retorna o produtor com maior intervalo entre 2 premios, e o produtor com menor intervalo entre os premios.  
 
 ``GET /api/movie/min-and-max-awards``
 
@@ -39,4 +39,4 @@ curl --request GET -sL \
 ### Testes
 Para todas os testes do sistema utilize:
 
-```mvn tests```
+```mvn test```

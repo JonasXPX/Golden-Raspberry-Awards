@@ -37,7 +37,6 @@ public class CSVConfigurationImpl implements CSVConfiguration {
         final File csvFolder = new File("csv");
         final File[] files = csvFolder.listFiles();
         Arrays.stream(files)
-                .peek(System.out::println)
                 .filter(File::isFile)
                 .filter(file -> file.getAbsolutePath().endsWith(".csv"))
                 .forEach(file -> {
