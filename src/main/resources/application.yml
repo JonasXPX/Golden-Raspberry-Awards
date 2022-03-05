@@ -1,0 +1,11 @@
+server:
+  servlet:
+    context-path: /api
+  port: ${APPLICATION_PORT:8081}
+
+spring:
+  jpa:
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
