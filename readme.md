@@ -7,7 +7,7 @@ _Razzies é um prêmio cinematográfico humorístico dos Estados Unidos, concebi
 Tomando como fonte de dados um arquivo CSV, o sistema guarda essas informações e transforma em um ranking.
 
 
-### Como utilizar
+## Como utilizar
 
 Começe clonando o projeto:
 
@@ -22,7 +22,7 @@ Com o projeto em mãos você já pode executa-lo com o [maven](https://maven.apa
 #### Incluir mais dados
 Para incluir novos arquivos basta incluir na pasta csv 
 
-### Referência
+## Referência
  Definição da API; 
 #### Awards
 
@@ -30,7 +30,7 @@ Retorna o produtor com maior intervalo entre 2 premios, e produtore com menor in
 
 ``GET /api/movie/min-and-max-awards``
 
-#### Shell
+###### Shell
 ````shell
 curl --request GET -sL \
      --url 'http://localhost:8081/api/producer/min-and-max-awards'
