@@ -35,13 +35,9 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     private List<ProducerInterval> getMaxOfProducerRecords(final Map<String, List<Integer>> producersWithRecords) {
-        final Supplier<Stream<ProducerInterval>> streamSupplier = () ->
-                producersWithRecords.entrySet()
-                        .stream()
-                        .filter(stringListEntry -> stringListEntry.getValue().size() > 1)
-                        .map(getMinAndMaxOfPeriod());
+        final Supplier<Stream<ProducerInterval>> streamSupplier = filterProducersAndMapMinAndMax(producersWithRecords);
 
-        Optional<ProducerInterval> maxInProducers = streamSupplier
+        final Optional<ProducerInterval> maxInProducers = streamSupplier
                 .get()
                 .max(Comparator.comparingInt(ProducerInterval::getInterval));
 
@@ -51,25 +47,19 @@ public class ProducerServiceImpl implements ProducerService {
                 .collect(Collectors.toList());
     }
 
-
-
     private Function<Map.Entry<String, List<Integer>>, ProducerInterval> getMinAndMaxOfPeriod() {
         return entry -> {
-            Optional<Integer> min = entry.getValue().stream().reduce(Math::min);
-            Optional<Integer> max = entry.getValue().stream().reduce(Math::max);
+            final Optional<Integer> min = entry.getValue().stream().reduce(Math::min);
+            final Optional<Integer> max = entry.getValue().stream().reduce(Math::max);
             return new ProducerInterval(entry.getKey(), min, max);
         };
     }
 
-    private List<ProducerInterval> getMinOfProducerRecords(Map<String, List<Integer>> producersWithRecords) {
-        Supplier<Stream<ProducerInterval>> streamSupplier = () ->
-                producersWithRecords.entrySet()
-                        .stream()
-                        .filter(stringListEntry -> stringListEntry.getValue().size() > 1)
-                        .map(getMinAndMaxOfPeriod());
+    private List<ProducerInterval> getMinOfProducerRecords(final Map<String, List<Integer>> producersWithRecords) {
+        final Supplier<Stream<ProducerInterval>> streamSupplier = filterProducersAndMapMinAndMax(producersWithRecords);
 
 
-        Optional<ProducerInterval> minimal = streamSupplier
+        final Optional<ProducerInterval> minimal = streamSupplier
                 .get()
                 .min(Comparator.comparingInt(ProducerInterval::getInterval));
 
@@ -79,8 +69,15 @@ public class ProducerServiceImpl implements ProducerService {
                 .collect(Collectors.toList());
     }
 
+    private Supplier<Stream<ProducerInterval>> filterProducersAndMapMinAndMax(final Map<String, List<Integer>> producersWithRecords) {
+        return () ->
+                producersWithRecords.entrySet()
+                        .stream()
+                        .filter(stringListEntry -> stringListEntry.getValue().size() > 1)
+                        .map(getMinAndMaxOfPeriod());
+    }
 
-    private Map<String, List<Integer>> normalizeProducersWithPeriods(List<Producer> movies) {
+    private Map<String, List<Integer>> normalizeProducersWithPeriods(final List<Producer> movies) {
         final Map<String, List<Integer>> auxProducers = new HashMap<>();
 
         movies.forEach(movie -> {
@@ -90,5 +87,4 @@ public class ProducerServiceImpl implements ProducerService {
         });
         return auxProducers;
     }
-
 }

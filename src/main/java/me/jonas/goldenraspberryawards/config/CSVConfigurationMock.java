@@ -26,7 +26,7 @@ public class CSVConfigurationMock implements CSVConfiguration {
     private final CSVReader csvReader;
     private final MovieService movieService;
 
-    public CSVConfigurationMock(CSVReader csvReader, MovieService movieService) {
+    public CSVConfigurationMock(final CSVReader csvReader, final MovieService movieService) {
         this.csvReader = csvReader;
         this.movieService = movieService;
     }
