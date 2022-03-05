@@ -26,7 +26,7 @@ public class CSVConfigurationImpl implements CSVConfiguration {
     private final CSVReader csvReader;
     private final MovieService movieService;
 
-    public CSVConfigurationImpl(CSVReader csvReader, MovieService movieService) {
+    public CSVConfigurationImpl(final CSVReader csvReader, final MovieService movieService) {
         this.csvReader = csvReader;
         this.movieService = movieService;
     }

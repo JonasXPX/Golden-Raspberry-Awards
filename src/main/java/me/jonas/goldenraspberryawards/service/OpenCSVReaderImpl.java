@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 public class OpenCSVReaderImpl implements CSVReader {
 
     @Override
-    public Collection<Movie> readCSVFromInputStream(InputStream inputStream) {
-        HeaderColumnNameMappingStrategy<MovieBean> strategy = new HeaderColumnNameMappingStrategy<>();
+    public Collection<Movie> readCSVFromInputStream(final InputStream inputStream) {
+        final HeaderColumnNameMappingStrategy<MovieBean> strategy = new HeaderColumnNameMappingStrategy<>();
         strategy.setType(MovieBean.class);
 
-        CsvToBean<MovieBean> movieBeans = new CsvToBeanBuilder<MovieBean>(new InputStreamReader(inputStream))
+        final CsvToBean<MovieBean> movieBeans = new CsvToBeanBuilder<MovieBean>(new InputStreamReader(inputStream))
                 .withMappingStrategy(strategy)
                 .withIgnoreEmptyLine(true)
                 .withSeparator(';')

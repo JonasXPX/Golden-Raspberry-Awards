@@ -15,7 +15,7 @@ public class ProducerController {
 
     private final ProducerService service;
 
-    public ProducerController(ProducerService service) {
+    public ProducerController(final ProducerService service) {
         this.service = service;
     }
 
