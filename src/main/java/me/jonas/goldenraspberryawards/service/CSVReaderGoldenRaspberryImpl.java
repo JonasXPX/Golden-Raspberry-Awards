@@ -2,6 +2,7 @@ package me.jonas.goldenraspberryawards.service;
 
 import lombok.extern.log4j.Log4j2;
 import me.jonas.goldenraspberryawards.persistence.entities.Movie;
+import me.jonas.goldenraspberryawards.persistence.entities.Producer;
 import me.jonas.goldenraspberryawards.utils.BooleanConverter;
 
 import java.io.BufferedReader;
@@ -9,8 +10,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.Objects.nonNull;
@@ -25,7 +28,7 @@ public class CSVReaderGoldenRaspberryImpl implements CSVReader {
     private static final int STUDIOS_COLUMN_INDEX = 2;
     private static final int PRODUCERS_COLUMN_INDEX = 3;
     private static final int WINNER_COLUMN_INDEX = 4;
-
+    private static final String DELIMITER_PRODUCER = ",.|.and.";
 
     @Override
     public Collection<Movie> readCSVFromInputStream(final InputStream inputStream) {
@@ -52,13 +55,20 @@ public class CSVReaderGoldenRaspberryImpl implements CSVReader {
             final String studio = columns.length > STUDIOS_COLUMN_INDEX ? columns[STUDIOS_COLUMN_INDEX] : null;
             final String producer = columns.length > PRODUCERS_COLUMN_INDEX ? columns[PRODUCERS_COLUMN_INDEX] : null;
             final boolean winner = columns.length > WINNER_COLUMN_INDEX && BooleanConverter.convert(columns[WINNER_COLUMN_INDEX]);
-
-            return new Movie(null, year, title, studio, producer, winner);
+            Movie movie = new Movie(null, year, title, studio, null, winner);
+            movie.setProducer(mapProducer(producer, movie));
+            return movie;
         } catch (Exception e) {
             log.warn(format("failed to read line with contents: %s", columns));
             log.error(e.getMessage());
         }
 
         return null;
+    }
+
+    private List<Producer> mapProducer(final String producer, final Movie movie) {
+        return Arrays.stream(producer.split(DELIMITER_PRODUCER))
+                .map(name -> new Producer(null, name, movie))
+                .collect(Collectors.toList());
     }
 }

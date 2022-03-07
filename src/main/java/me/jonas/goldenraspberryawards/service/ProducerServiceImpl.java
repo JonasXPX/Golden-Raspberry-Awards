@@ -1,7 +1,7 @@
 package me.jonas.goldenraspberryawards.service;
 
 import me.jonas.goldenraspberryawards.persistence.ProducerRepository;
-import me.jonas.goldenraspberryawards.persistence.entities.Producer;
+import me.jonas.goldenraspberryawards.persistence.entities.ProducerView;
 import me.jonas.goldenraspberryawards.service.dto.PrizeRange;
 import me.jonas.goldenraspberryawards.service.dto.ProducerInterval;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ProducerServiceImpl implements ProducerService {
 
     @Override
     public PrizeRange getIntervals() {
-        final List<Producer> allMovies = repository.getProducerInfo();
+        final List<ProducerView> allMovies = repository.getProducerInfo();
         final PrizeRange prizeRange = new PrizeRange();
 
         prizeRange.setMin(getMinOfProducerRecords(normalizeProducersWithPeriods(allMovies)));
@@ -49,8 +49,8 @@ public class ProducerServiceImpl implements ProducerService {
 
     private Function<Map.Entry<String, List<Integer>>, ProducerInterval> getMinAndMaxOfPeriod() {
         return entry -> {
-            final Optional<Integer> min = entry.getValue().stream().reduce(Math::min);
-            final Optional<Integer> max = entry.getValue().stream().reduce(Math::max);
+            final int min = entry.getValue().stream().reduce(Math::min).get();
+            final int max = entry.getValue().stream().reduce(Math::max).get();
             return new ProducerInterval(entry.getKey(), min, max);
         };
     }
@@ -73,17 +73,17 @@ public class ProducerServiceImpl implements ProducerService {
         return () ->
                 producersWithRecords.entrySet()
                         .stream()
-                        .filter(stringListEntry -> stringListEntry.getValue().size() > 1)
+                        .filter(producer -> producer.getValue().size() > 1)
                         .map(getMinAndMaxOfPeriod());
     }
 
-    private Map<String, List<Integer>> normalizeProducersWithPeriods(final List<Producer> movies) {
+    private Map<String, List<Integer>> normalizeProducersWithPeriods(final List<ProducerView> movies) {
         final Map<String, List<Integer>> auxProducers = new HashMap<>();
 
         movies.forEach(movie -> {
-            final List<Integer> years = auxProducers.getOrDefault(movie.getProducer(), new ArrayList<>());
+            final List<Integer> years = auxProducers.getOrDefault(movie.getName(), new ArrayList<>());
             years.add(movie.getYear());
-            auxProducers.put(movie.getProducer(), years);
+            auxProducers.put(movie.getName(), years);
         });
         return auxProducers;
     }

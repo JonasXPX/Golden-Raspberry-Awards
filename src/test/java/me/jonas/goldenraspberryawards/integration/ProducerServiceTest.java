@@ -29,12 +29,12 @@ class ProducerServiceTest {
     @Test
     void shouldReturnMaxProducers() {
         PrizeRange moviesIntervals = service.getIntervals();
-
+        assertEquals(1, moviesIntervals.getMax().size());
         ProducerInterval max = moviesIntervals.getMax().iterator().next();
-        assertEquals(18, max.getInterval());
-        assertEquals(1980, max.getPreviousWin());
-        assertEquals(1998, max.getFollowingWin());
-        assertEquals("Jerry Weintraub", max.getProducer());
+        assertEquals(13, max.getInterval());
+        assertEquals(2002, max.getPreviousWin());
+        assertEquals(2015, max.getFollowingWin());
+        assertEquals("Matthew Vaughn", max.getProducer());
     }
 
     @Test
@@ -42,8 +42,6 @@ class ProducerServiceTest {
         PrizeRange moviesIntervals = service.getIntervals();
 
         Collection<ProducerInterval> min = moviesIntervals.getMin();
-        min.forEach(producerInterval -> {
-            assertEquals(1, producerInterval.getInterval());
-        });
+        min.forEach(producerInterval -> assertEquals(1, producerInterval.getInterval()));
     }
 }

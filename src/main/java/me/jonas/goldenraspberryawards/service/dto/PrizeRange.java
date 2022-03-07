@@ -8,6 +8,6 @@ import java.util.Collection;
 @Getter
 @Setter
 public class PrizeRange {
-    private Collection<ProducerInterval> min;
     private Collection<ProducerInterval> max;
+    private Collection<ProducerInterval> min;
 }
